@@ -1,0 +1,21 @@
+version: "3.0"
+services:
+  web:
+    build: .
+    volumes:
+      - ./:/var/www/html:cached
+    ports:
+      - "8080"
+  database:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Un!q@to2023
+      MSSQL_PID: Developer
+    volumes:
+      - mssqldata:/var/opt/mssql
+volumes:
+  mssqldata:
+    driver: "local"
