@@ -1,4 +1,11 @@
-FROM php:7.4-apache
+FROM php:8.0-apache
+
+RUN apt-get update && apt-get install -y unixodbc-dev
+
+RUN pecl install sqlsrv pdo_sqlsrv \
+    && docker-php-ext-enable sqlsrv pdo_sqlsrv \
+    && echo "extension=pdo_sqlsrv.so" >> /usr/local/etc/php/conf.d/docker-php-ext-pdo_sqlsrv.ini \
+    && echo "extension=sqlsrv.so" >> /usr/local/etc/php/conf.d/docker-php-ext-sqlsrv.ini
 
 RUN apt-get update && apt-get install -y locales apt-transport-https \
         unixodbc libgss3 odbcinst devscripts debhelper dh-exec dh-autoreconf libreadline-dev libltdl-dev \
